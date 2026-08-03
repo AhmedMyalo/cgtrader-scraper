@@ -1,0 +1,69 @@
+name: CGTrader scrape
+
+# Runs every 6 hours, unattended, forever, for free (public repo = unlimited
+# Actions minutes). Each run gets a fresh throwaway Linux VM from GitHub, does
+# up to ~5h15m of work, commits its progress back to this repo, then the VM
+# is destroyed. The NEXT run resumes exactly where this one stopped, using
+# the resumable jsonl/state files run_pipeline.py already relies on locally --
+# nothing here bypasses that, it just decides how long each run gets before
+# committing and stopping.
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
+
+permissions:
+  contents: write   # needed to git-commit progress back to the repo
+
+concurrency:
+  group: cgtrader-scrape
+  cancel-in-progress: false   # queue, never run two scrapes at once
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350   # GitHub's own hard cap is 360; this leaves a
+    # margin so the job is stopped by our own script (which self-limits to
+    # ~5h15m) rather than abruptly killed by GitHub mid-commit.
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Chromium (for solving the WAF challenge)
+        run: playwright install --with-deps chromium
+
+      - name: Run the scrape pipeline
+        run: python run_pipeline.py
+
+      - name: Commit progress back to the repo
+        run: |
+          git config user.name "cgtrader-scraper-bot"
+          git config user.email "actions@users.noreply.github.com"
+          # Only the resumable source-of-truth data, never the generated
+          # CSVs (those go out as this run's artifact instead -- some
+          # categories' full CSV would be well over GitHub's 100MB
+          # per-file limit, which would break the push).
+          git add cgtrader_deep/raw cgtrader_deep/plan.json \
+                  cgtrader_deep/state.json 'cgtrader_details/*_details/**' \
+                  2>/dev/null || true
+          git diff --staged --quiet && echo "nothing new to commit" || \
+            git commit -m "scrape progress: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
+
+      - name: Upload this run's CSV exports
+        uses: actions/upload-artifact@v4
+        with:
+          name: csv-exports-${{ github.run_number }}
+          path: cgtrader_details/*.csv
+          if-no-files-found: warn
+          retention-days: 90

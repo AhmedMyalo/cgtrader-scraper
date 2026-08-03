@@ -1,0 +1,754 @@
+{
+  "categories": {
+    "aircraft::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9720,
+      "failed_pages": [
+        52,
+        63
+      ]
+    },
+    "aircraft-part::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9840,
+      "failed_pages": [
+        60
+      ]
+    },
+    "commercial-aircraft::oldest": {
+      "last_page": 80,
+      "complete": true,
+      "count": 9397,
+      "failed_pages": [
+        62
+      ]
+    },
+    "helicopter::oldest": {
+      "last_page": 51,
+      "complete": true,
+      "count": 6068,
+      "failed_pages": []
+    },
+    "historic-aircraft::oldest": {
+      "last_page": 44,
+      "complete": true,
+      "count": 4920,
+      "failed_pages": [
+        23,
+        35,
+        44
+      ]
+    },
+    "jet::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "military-aircraft::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9720,
+      "failed_pages": [
+        1,
+        17
+      ]
+    },
+    "private-aircraft::oldest": {
+      "last_page": 36,
+      "complete": true,
+      "count": 4157,
+      "failed_pages": [
+        17
+      ]
+    },
+    "animal::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9720,
+      "failed_pages": [
+        69,
+        82
+      ]
+    },
+    "bird::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9840,
+      "failed_pages": [
+        72
+      ]
+    },
+    "dinosaur::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "fish::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "insect::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9840,
+      "failed_pages": [
+        83
+      ]
+    },
+    "mammal::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "reptile::oldest": {
+      "last_page": 79,
+      "complete": true,
+      "count": 9462,
+      "failed_pages": []
+    },
+    "architectural::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9840,
+      "failed_pages": [
+        1
+      ]
+    },
+    "engineering::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9600,
+      "failed_pages": [
+        5,
+        17,
+        30
+      ]
+    },
+    "decoration::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9840,
+      "failed_pages": [
+        25
+      ]
+    },
+    "door::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9600,
+      "failed_pages": [
+        31,
+        43,
+        49
+      ]
+    },
+    "fixture::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "floor::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "lighting::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "architectural-street::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "window::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "award::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "car::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "antique-car::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "concept-car::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "suv::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "luxury-car::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "racing-car::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "sport-car::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 19920,
+      "failed_pages": []
+    },
+    "character::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "human-anatomy::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "child::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "clothing::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "fantasy-character::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "man::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "sci-fi-character::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "woman::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "electronics::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "exterior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "stadium::oldest": {
+      "last_page": 75,
+      "complete": true,
+      "count": 8936,
+      "failed_pages": []
+    },
+    "cityscape::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "office::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "historic-exterior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "house::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "industrial-exterior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "landmark::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "landscape::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "sci-fi-exterior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9959,
+      "failed_pages": []
+    },
+    "skyscraper::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "street-exterior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "exterior-public::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "food::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "beverage::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "fruit::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "miscellaneous::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "vegetable::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "household::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "kitchenware::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "household-tools::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "industrial::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "industrial-machine::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "industrial-part::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "tool::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "interior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "bathroom::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "bedroom::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ]
+    },
+    "hall::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 7800,
+      "failed_pages": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ]
+    },
+    "house-interior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ]
+    },
+    "kitchen::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ]
+    },
+    "living-room::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ]
+    },
+    "office-interior::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 7800,
+      "failed_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ]
+    },
+    "military::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ]
+    },
+    "armor::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ]
+    },
+    "military-character::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8160,
+      "failed_pages": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83
+      ]
+    },
+    "gun::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8640,
+      "failed_pages": [
+        1,
+        2,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68
+      ]
+    },
+    "melee::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8880,
+      "failed_pages": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ]
+    },
+    "rocketry::oldest": {
+      "last_page": 30,
+      "complete": true,
+      "count": 2880,
+      "failed_pages": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    "military-vehicle::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8520,
+      "failed_pages": [
+        1,
+        2,
+        3,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71
+      ]
+    },
+    "plant::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8760,
+      "failed_pages": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ]
+    },
+    "conifer::oldest": {
+      "last_page": 63,
+      "complete": true,
+      "count": 6300,
+      "failed_pages": [
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    "flower::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 8760,
+      "failed_pages": [
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
+    },
+    "grass::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "leaf::oldest": {
+      "last_page": 33,
+      "complete": false,
+      "count": 3960,
+      "failed_pages": []
+    }
+  }
+}
