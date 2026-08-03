@@ -1,302 +1,335 @@
 {
-  "built_at": "2026-07-31T23:49:27.850099+00:00",
+  "built_at": "2026-08-03T13:22:03.918336+00:00",
   "targets": [
     {
       "parent": "aircraft",
       "slug": "aircraft",
-      "totalCount": 52057,
+      "totalCount": 52116,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "aircraft",
       "slug": "aircraft-part",
-      "totalCount": 19430,
+      "totalCount": 19476,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "aircraft",
       "slug": "commercial-aircraft",
-      "totalCount": 9517,
+      "totalCount": 9528,
       "totalPages": 80,
       "pagesToFetch": 80,
       "reachable": 9600,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "aircraft",
       "slug": "helicopter",
-      "totalCount": 6068,
+      "totalCount": 6082,
       "totalPages": 51,
       "pagesToFetch": 51,
       "reachable": 6120,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "aircraft",
       "slug": "historic-aircraft",
-      "totalCount": 5278,
-      "totalPages": 44,
-      "pagesToFetch": 44,
-      "reachable": 5280,
-      "capped": false
+      "totalCount": 5291,
+      "totalPages": 45,
+      "pagesToFetch": 45,
+      "reachable": 5400,
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "aircraft",
       "slug": "jet",
-      "totalCount": 23078,
+      "totalCount": 23106,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "aircraft",
       "slug": "military-aircraft",
-      "totalCount": 42560,
+      "totalCount": 42611,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "aircraft",
       "slug": "private-aircraft",
-      "totalCount": 4277,
+      "totalCount": 4278,
       "totalPages": 36,
       "pagesToFetch": 36,
       "reachable": 4320,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "animal",
       "slug": "animal",
-      "totalCount": 216969,
+      "totalCount": 217455,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "animal",
       "slug": "bird",
-      "totalCount": 36460,
+      "totalCount": 36525,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "animal",
       "slug": "dinosaur",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 12452,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "animal",
       "slug": "fish",
-      "totalCount": 23634,
+      "totalCount": 23687,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "animal",
       "slug": "insect",
-      "totalCount": 9985,
+      "totalCount": 10022,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "animal",
       "slug": "mammal",
-      "totalCount": 40764,
+      "totalCount": 40928,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "animal",
       "slug": "reptile",
-      "totalCount": 9462,
-      "totalPages": 79,
-      "pagesToFetch": 79,
-      "reachable": 9480,
-      "capped": false
+      "totalCount": 9507,
+      "totalPages": 80,
+      "pagesToFetch": 80,
+      "reachable": 9600,
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "architectural",
-      "totalCount": 328878,
+      "totalCount": 329028,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "engineering",
-      "totalCount": 59421,
+      "totalCount": 59503,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "decoration",
-      "totalCount": 384901,
+      "totalCount": 385647,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "door",
-      "totalCount": 131789,
+      "totalCount": 132014,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "fixture",
-      "totalCount": 59663,
+      "totalCount": 59707,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "floor",
-      "totalCount": 114634,
+      "totalCount": 114657,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "lighting",
-      "totalCount": 327574,
+      "totalCount": 328062,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "architectural-street",
-      "totalCount": 70394,
+      "totalCount": 70416,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "architectural",
       "slug": "window",
-      "totalCount": 132271,
+      "totalCount": 132455,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "award",
       "slug": "award",
-      "totalCount": 10504,
+      "totalCount": 10511,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "car",
       "slug": "car",
-      "totalCount": 122467,
+      "totalCount": 122634,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "car",
       "slug": "antique-car",
-      "totalCount": 50227,
+      "totalCount": 50314,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "car",
       "slug": "concept-car",
-      "totalCount": 19393,
+      "totalCount": 19430,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "car",
       "slug": "suv",
-      "totalCount": 15391,
+      "totalCount": 15432,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "car",
       "slug": "luxury-car",
-      "totalCount": 18378,
+      "totalCount": 18395,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "car",
       "slug": "racing-car",
-      "totalCount": 33427,
+      "totalCount": 33465,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "car",
       "slug": "sport-car",
-      "totalCount": 145839,
+      "totalCount": 146047,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "character",
       "slug": "character",
-      "totalCount": 327076,
+      "totalCount": 328035,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "character",
@@ -305,124 +338,138 @@
       "totalPages": null,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "character",
       "slug": "child",
-      "totalCount": 40654,
+      "totalCount": 40726,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "character",
       "slug": "clothing",
-      "totalCount": 134876,
+      "totalCount": 135253,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "character",
       "slug": "fantasy-character",
-      "totalCount": 71463,
+      "totalCount": 71609,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "character",
       "slug": "man",
-      "totalCount": 134985,
+      "totalCount": 135360,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "character",
       "slug": "sci-fi-character",
-      "totalCount": 25999,
+      "totalCount": 26013,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "character",
       "slug": "woman",
-      "totalCount": 141500,
+      "totalCount": 141988,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "electronics",
       "slug": "electronics",
-      "totalCount": 85731,
+      "totalCount": 85751,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "exterior",
-      "totalCount": 262637,
+      "totalCount": 262835,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "stadium",
-      "totalCount": 8934,
+      "totalCount": 8947,
       "totalPages": 75,
       "pagesToFetch": 75,
       "reachable": 9000,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "cityscape",
-      "totalCount": 24031,
+      "totalCount": 24038,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "office",
-      "totalCount": 70492,
+      "totalCount": 70495,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "historic-exterior",
-      "totalCount": 36831,
+      "totalCount": 36938,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "house",
-      "totalCount": 186516,
+      "totalCount": 186566,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
@@ -431,88 +478,98 @@
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "landmark",
-      "totalCount": 12972,
+      "totalCount": 12994,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "landscape",
-      "totalCount": 61750,
+      "totalCount": 61820,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "sci-fi-exterior",
-      "totalCount": 13638,
+      "totalCount": 13643,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "skyscraper",
-      "totalCount": 15293,
+      "totalCount": 15285,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "street-exterior",
-      "totalCount": 66499,
+      "totalCount": 66523,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "exterior",
       "slug": "exterior-public",
-      "totalCount": 32799,
+      "totalCount": 32891,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "food",
       "slug": "food",
-      "totalCount": 107179,
+      "totalCount": 107330,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "food",
       "slug": "beverage",
-      "totalCount": 14982,
+      "totalCount": 14996,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "food",
       "slug": "fruit",
-      "totalCount": 25766,
+      "totalCount": 25809,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "food",
@@ -521,304 +578,338 @@
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "food",
       "slug": "vegetable",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 17314,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "household",
       "slug": "household",
-      "totalCount": 268479,
+      "totalCount": 268877,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "household",
       "slug": "kitchenware",
-      "totalCount": 24342,
+      "totalCount": 24348,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "household",
       "slug": "household-tools",
-      "totalCount": 68487,
+      "totalCount": 68525,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "industrial",
       "slug": "industrial",
-      "totalCount": 107347,
+      "totalCount": 107492,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "industrial",
       "slug": "industrial-machine",
-      "totalCount": 44714,
+      "totalCount": 44783,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "industrial",
       "slug": "industrial-part",
-      "totalCount": 40828,
+      "totalCount": 40850,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "industrial",
       "slug": "tool",
-      "totalCount": 126000,
+      "totalCount": 126162,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "interior",
-      "totalCount": 678735,
+      "totalCount": 679586,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "bathroom",
-      "totalCount": 40379,
+      "totalCount": 40410,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "bedroom",
-      "totalCount": 66997,
+      "totalCount": 67073,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "hall",
-      "totalCount": 24260,
+      "totalCount": 24230,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "house-interior",
-      "totalCount": 81557,
+      "totalCount": 81593,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "kitchen",
-      "totalCount": 139836,
+      "totalCount": 140148,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "living-room",
-      "totalCount": 142603,
+      "totalCount": 142729,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "interior",
       "slug": "office-interior",
-      "totalCount": 111214,
+      "totalCount": 111364,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "military",
       "slug": "military",
-      "totalCount": 122636,
+      "totalCount": 122769,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "military",
       "slug": "armor",
-      "totalCount": 144550,
+      "totalCount": 145249,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "military",
       "slug": "military-character",
-      "totalCount": 15828,
+      "totalCount": 15836,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "military",
       "slug": "gun",
-      "totalCount": 74697,
+      "totalCount": 74814,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "military",
       "slug": "melee",
-      "totalCount": 22593,
+      "totalCount": 22602,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "military",
       "slug": "rocketry",
-      "totalCount": 3501,
+      "totalCount": 3505,
       "totalPages": 30,
       "pagesToFetch": 30,
       "reachable": 3600,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "military",
       "slug": "military-vehicle",
-      "totalCount": 32015,
+      "totalCount": 32084,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "plant",
       "slug": "plant",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 192122,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "plant",
       "slug": "conifer",
-      "totalCount": null,
-      "totalPages": null,
-      "pagesToFetch": 83,
-      "reachable": 9960,
-      "capped": false
+      "totalCount": 7504,
+      "totalPages": 63,
+      "pagesToFetch": 63,
+      "reachable": 7560,
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "plant",
       "slug": "flower",
-      "totalCount": 164349,
+      "totalCount": 164664,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "plant",
       "slug": "grass",
-      "totalCount": 59314,
+      "totalCount": 59442,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "plant",
       "slug": "leaf",
-      "totalCount": 108873,
+      "totalCount": 109114,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "plant",
       "slug": "pot-plant",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 47580,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "plant",
       "slug": "bush",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 32087,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "science",
       "slug": "science",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 47138,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "science",
       "slug": "astronomy-physics",
-      "totalCount": null,
-      "totalPages": null,
-      "pagesToFetch": 83,
-      "reachable": 9960,
-      "capped": false
+      "totalCount": 319,
+      "totalPages": 3,
+      "pagesToFetch": 3,
+      "reachable": 360,
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "science",
       "slug": "biology",
-      "totalCount": 7112,
+      "totalCount": 7133,
       "totalPages": 60,
       "pagesToFetch": 60,
       "reachable": 7200,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "science",
@@ -827,133 +918,148 @@
       "totalPages": 15,
       "pagesToFetch": 15,
       "reachable": 1800,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "space",
       "slug": "space",
-      "totalCount": 115657,
+      "totalCount": 115835,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "space",
       "slug": "planet",
-      "totalCount": 10308,
+      "totalCount": 10313,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "space",
       "slug": "spaceship",
-      "totalCount": 32573,
+      "totalCount": 32622,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "sport",
       "slug": "sport",
-      "totalCount": 109006,
+      "totalCount": 109215,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "vehicle",
-      "totalCount": 126777,
+      "totalCount": 126974,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "bicycle",
-      "totalCount": 5869,
-      "totalPages": 49,
-      "pagesToFetch": 49,
-      "reachable": 5880,
-      "capped": false
+      "totalCount": 5885,
+      "totalPages": 50,
+      "pagesToFetch": 50,
+      "reachable": 6000,
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "bus",
-      "totalCount": 8289,
+      "totalCount": 8296,
       "totalPages": 70,
       "pagesToFetch": 70,
       "reachable": 8400,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "industrial-vehicle",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 12810,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "motorcycle",
-      "totalCount": null,
-      "totalPages": null,
-      "pagesToFetch": 83,
-      "reachable": 9960,
-      "capped": false
+      "totalCount": 7738,
+      "totalPages": 65,
+      "pagesToFetch": 65,
+      "reachable": 7800,
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "vehicle-part",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 54045,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "sci-fi-vehicle",
-      "totalCount": null,
-      "totalPages": null,
+      "totalCount": 14003,
+      "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": false
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "train",
-      "totalCount": 21224,
+      "totalCount": 21258,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "vehicle",
       "slug": "truck",
-      "totalCount": 43940,
+      "totalCount": 44015,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "watercraft",
       "slug": "watercraft",
-      "totalCount": 17648,
+      "totalCount": 17675,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "watercraft",
@@ -962,34 +1068,38 @@
       "totalPages": 16,
       "pagesToFetch": 16,
       "reachable": 1920,
-      "capped": false
+      "capped": false,
+      "measured": true
     },
     {
       "parent": "watercraft",
       "slug": "industrial-watercraft",
-      "totalCount": 12995,
+      "totalCount": 13002,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "watercraft",
       "slug": "military-watercraft",
-      "totalCount": 14274,
+      "totalCount": 14294,
       "totalPages": 83,
       "pagesToFetch": 83,
       "reachable": 9960,
-      "capped": true
+      "capped": true,
+      "measured": true
     },
     {
       "parent": "watercraft",
       "slug": "recreational-watercraft",
-      "totalCount": 2619,
+      "totalCount": 2620,
       "totalPages": 22,
       "pagesToFetch": 22,
       "reachable": 2640,
-      "capped": false
+      "capped": false,
+      "measured": true
     }
   ]
 }
