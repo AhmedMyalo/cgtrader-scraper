@@ -745,9 +745,129 @@
       "failed_pages": []
     },
     "leaf::oldest": {
-      "last_page": 33,
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "pot-plant::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "bush::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "science::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "astronomy-physics::oldest": {
+      "last_page": 3,
+      "complete": true,
+      "count": 319,
+      "failed_pages": []
+    },
+    "biology::oldest": {
+      "last_page": 60,
+      "complete": true,
+      "count": 7141,
+      "failed_pages": []
+    },
+    "math::oldest": {
+      "last_page": 15,
+      "complete": true,
+      "count": 1701,
+      "failed_pages": []
+    },
+    "space::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "planet::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "spaceship::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "sport::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "vehicle::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "bicycle::oldest": {
+      "last_page": 50,
+      "complete": true,
+      "count": 5887,
+      "failed_pages": []
+    },
+    "bus::oldest": {
+      "last_page": 70,
+      "complete": true,
+      "count": 8298,
+      "failed_pages": []
+    },
+    "industrial-vehicle::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "motorcycle::oldest": {
+      "last_page": 65,
+      "complete": true,
+      "count": 7748,
+      "failed_pages": []
+    },
+    "vehicle-part::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "sci-fi-vehicle::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "train::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "truck::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "watercraft::oldest": {
+      "last_page": 62,
       "complete": false,
-      "count": 3960,
+      "count": 7440,
       "failed_pages": []
     }
   }
