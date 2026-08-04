@@ -865,9 +865,33 @@
       "failed_pages": []
     },
     "watercraft::oldest": {
-      "last_page": 62,
-      "complete": false,
-      "count": 7440,
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "historic-watercraft::oldest": {
+      "last_page": 16,
+      "complete": true,
+      "count": 1813,
+      "failed_pages": []
+    },
+    "industrial-watercraft::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "military-watercraft::oldest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
+    },
+    "recreational-watercraft::oldest": {
+      "last_page": 22,
+      "complete": true,
+      "count": 2620,
       "failed_pages": []
     }
   }
