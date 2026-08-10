@@ -29,6 +29,10 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history, not the default shallow clone --
+          # the commit step's rebase-and-retry-on-push-rejection needs a real
+          # common ancestor with origin/main to rebase onto.
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -56,9 +60,32 @@ jobs:
           git add cgtrader_deep/raw cgtrader_deep/plan.json \
                   cgtrader_deep/state.json 'cgtrader_details/*_details/**' \
                   2>/dev/null || true
-          git diff --staged --quiet && echo "nothing new to commit" || \
-            git commit -m "scrape progress: $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          git diff --staged --quiet && { echo "nothing new to commit"; exit 0; }
+          git commit -m "scrape progress: $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          # A run takes ~5h15m end to end. If a scheduled trigger ever slips
+          # (GitHub documents that `schedule` can be delayed/coalesced under
+          # load) two runs can both reach this step within moments of each
+          # other; the concurrency group above is supposed to fully serialize
+          # them, but on 2026-08-08 one run's push was rejected here anyway
+          # ("fetch first") because the remote had moved -- and since this
+          # was the run's ONLY copy of its ~5h15m of scraped data (the VM is
+          # destroyed right after this job ends), that push failing meant
+          # that run's entire output was silently lost, not just delayed.
+          # So: on rejection, rebase onto whatever landed on main in the
+          # meantime and retry, a few times with backoff, before giving up.
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt/5) -- fetching and rebasing"
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort; echo "rebase failed, retrying fetch"; }
+            sleep $((attempt * 10))
+          done
+          echo "::error::push still failing after 5 attempts -- this run's progress is committed LOCALLY on the runner but could not reach origin/main. Check for a stuck/overlapping run."
+          exit 1
 
       - name: Upload this run's CSV exports
         uses: actions/upload-artifact@v4
