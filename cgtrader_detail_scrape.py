@@ -687,6 +687,16 @@ def main():
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--max-stall-min", type=float, default=10,
                     help="restart if no model completes for this many minutes")
+    ap.add_argument("--max-minutes", type=float, default=None,
+                    help="stop scraping cleanly after this many minutes, then still "
+                         "export/commit whatever was fetched. REQUIRED when running "
+                         "under a hard external time limit (e.g. GitHub Actions' "
+                         "timeout-minutes): without it the loop runs until something "
+                         "else kills the process, and a SIGKILL means the caller's "
+                         "commit/push step is skipped entirely -- so on 2026-08-10 "
+                         "eight parallel category jobs each scraped ~5h50m and then "
+                         "had ALL of it discarded when Actions cancelled them. "
+                         "Set this comfortably below the external limit.")
     ap.add_argument("--log", nargs="?", const="auto", default=None)
     args = ap.parse_args()
 
@@ -747,8 +757,19 @@ def main():
 
     ok = missing = failed = 0
     t0 = time.time()
+    budget_s = args.max_minutes * 60 if args.max_minutes else None
+    stopped_on_budget = False
     for i, t in enumerate(todo, 1):
         if _stop:
+            break
+        if budget_s and (time.time() - t0) >= budget_s:
+            # Deliberate clean exit while we still control the process, so the
+            # caller's export/commit steps still get to run. Everything
+            # fetched so far is already durably written to the shards.
+            stopped_on_budget = True
+            print(f"\n[budget] hit --max-minutes {args.max_minutes:g} after "
+                  f"{i - 1} of {len(todo)} models -- stopping cleanly so this "
+                  f"run's progress gets committed. Re-run to resume.")
             break
         row = fetch_detail(sess, t["url"])
         # Every outcome here -- success, confirmed-gone, or exhausted retries --
@@ -779,7 +800,8 @@ def main():
                       f"({rate:.0f}/h, ~{left:.1f}h left)")
         jittered_sleep(args.delay)
 
-    print(f"\ndone: ok={ok} missing={missing} failed={failed}")
+    print(f"\ndone: ok={ok} missing={missing} failed={failed}"
+          f"{' (stopped on time budget)' if stopped_on_budget else ''}")
     path, n = export_csv(args.out_dir, args.category, stamp)
     if path:
         print(f"csv: {n} models -> {path}")
