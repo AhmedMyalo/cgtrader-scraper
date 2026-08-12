@@ -602,7 +602,7 @@ def load_done(out_dir, category):
     return {str(r.get("id")) for r in load_rows(out_dir, category)}
 
 
-def patch_extra(sess, category, out_dir, solve_slug="aircraft"):
+def patch_extra(sess, category, out_dir, solve_slug="aircraft", budget_s=None):
     """One-time backfill: add views/favorites/downloads/discount/final-price to
     rows fetched before this endpoint's fields were fully parsed, WITHOUT
     re-fetching the whole product page (everything else about those rows is
@@ -629,8 +629,17 @@ def patch_extra(sess, category, out_dir, solve_slug="aircraft"):
     # 2026-08-01) lost 100% of progress. Rewriting periodically caps the loss.
 
     patched = failed = 0
+    t0 = time.time()
     for i, row in enumerate(todo, 1):
         if _stop:
+            break
+        if budget_s and (time.time() - t0) >= budget_s:
+            # Same reason as the main scrape loop: exit while we still control
+            # the process so the caller's commit step runs. Already-patched
+            # rows are safe on disk via checkpoint(); the rest stay unpatched
+            # and get picked up next run, since todo is "missing price_final".
+            print(f"\n[budget] backfill hit its time budget after {patched} of "
+                  f"{len(todo)} rows -- stopping cleanly. Re-run to continue.")
             break
         extra = fetch_product_extra(sess, row["url"], solve_slug)
         row.update(extra)
@@ -738,7 +747,8 @@ def main():
         raise SystemExit("give --category (or --test-url)")
 
     if args.patch_views:
-        patch_extra(sess, args.category, args.out_dir)
+        patch_extra(sess, args.category, args.out_dir,
+                    budget_s=args.max_minutes * 60 if args.max_minutes else None)
         path, n = export_csv(args.out_dir, args.category, stamp)
         if path:
             print(f"  {n} models -> {path}")

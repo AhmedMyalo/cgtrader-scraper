@@ -86,6 +86,20 @@ jobs:
       - name: Install Chromium (for solving the WAF challenge)
         run: playwright install --with-deps chromium
 
+      - name: Backfill missing sale/discount fields for ${{ matrix.category }}
+        run: |
+          # Rows scraped before the /products/<slug>.js endpoint was fully
+          # parsed have no price_final / sale_discount_pct / downloads_count.
+          # 'award' is the big one (9,760 of its 9,960 rows) because it was
+          # scraped first, but any category can pick up a few such rows.
+          # --patch-views only touches rows still missing price_final and
+          # rewrites shards atomically, so this is a no-op (exits in seconds)
+          # once a category is fully backfilled -- safe to run every time.
+          # Budgeted well under the scrape step so it can't starve it.
+          python cgtrader_detail_scrape.py \
+            --category "${{ matrix.category }}" \
+            --patch-views --max-stall-min 10 --max-minutes 100
+
       - name: Scrape ${{ matrix.category }}
         run: |
           # --max-minutes MUST stay well below the job's timeout-minutes above.
@@ -94,11 +108,11 @@ jobs:
           # away the whole run's scraping. That is exactly what happened on
           # 2026-08-10: 8 of 10 category jobs each scraped ~5h50m and lost all
           # of it, because this step had no internal budget of its own.
-          # 300 min of scraping + ~50 min of headroom < 350 min job timeout.
+          # 100 (backfill) + 200 (scrape) + ~50 headroom < 350 job timeout.
           python cgtrader_detail_scrape.py \
             --category "${{ matrix.category }}" \
             --order price_desc --delay 1.5 \
-            --max-stall-min 10 --max-minutes 300
+            --max-stall-min 10 --max-minutes 200
 
       - name: Commit progress back to the repo
         run: |
