@@ -129,15 +129,38 @@ jobs:
           git commit -m "scrape progress (${{ matrix.category }}): $(date -u +'%Y-%m-%d %H:%M UTC')"
 
           # Up to 8 parallel jobs finishing around the same time all want to
-          # push to the same main branch -- the per-category concurrency
-          # group prevents the SAME category racing itself, but different
-          # categories racing each other here is expected and normal. On
-          # rejection, rebase onto whatever landed in the meantime and retry
-          # with backoff (+ small jitter so 8 runners don't retry in
-          # lockstep) before giving up loudly instead of silently losing
-          # this job's scraped work (which happened for real on 2026-08-08,
-          # before this retry loop existed, in the single-job version of
-          # this workflow).
+          # push to the same main branch, so rejection here is expected and
+          # normal; rebase onto whatever landed and retry.
+          #
+          # The rebase itself can hit a genuine CONFLICT when two commits both
+          # touched the same category's shard files (an append on one side vs.
+          # an append or a backfill rewrite on the other). The previous version
+          # just ran `git rebase --abort` and retried the identical rebase,
+          # which of course produced the identical conflict -- all 8 attempts
+          # failed the same way and the job's whole 5h of scraping was lost
+          # (exterior, 8,149 rows, 2026-08-12).
+          #
+          # These files are append-mostly JSONL and every reader dedupes by
+          # model id (load_rows / export_csv), so the correct resolution for a
+          # conflict is simply the UNION of both sides -- never "pick one".
+          # sort -u also drops byte-identical duplicate lines. If a row ends up
+          # present in both a pre-backfill and post-backfill form, the next
+          # run's backfill step fixes it, since it targets rows missing
+          # price_final.
+          resolve_conflicts() {
+            local f
+            local any=0
+            for f in $(git diff --name-only --diff-filter=U); do
+              any=1
+              echo "  union-merging conflicted $f"
+              { git show ":2:$f" 2>/dev/null; git show ":3:$f" 2>/dev/null; } \
+                | sort -u > "$f.union"
+              mv "$f.union" "$f"
+              git add "$f"
+            done
+            return $((1 - any))   # 0 (true) if we resolved something
+          }
+
           for attempt in 1 2 3 4 5 6 7 8; do
             if git push; then
               echo "pushed on attempt $attempt"
@@ -145,7 +168,14 @@ jobs:
             fi
             echo "push rejected (attempt $attempt/8) -- fetching and rebasing"
             git fetch origin main
-            git rebase origin/main || { git rebase --abort; echo "rebase failed, retrying fetch"; }
+            if ! git rebase origin/main; then
+              if resolve_conflicts; then
+                GIT_EDITOR=true git rebase --continue || git rebase --abort
+              else
+                git rebase --abort
+                echo "rebase failed with no conflicted files -- retrying"
+              fi
+            fi
             sleep $((attempt * 8 + RANDOM % 10))
           done
           echo "::error::push still failing after 8 attempts for ${{ matrix.category }} -- this job's progress is committed LOCALLY on the runner but could not reach origin/main."
