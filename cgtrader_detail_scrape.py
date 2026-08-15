@@ -401,6 +401,20 @@ def fetch_product_extra(sess, product_url, solve_slug="aircraft", max_attempts=3
 # "stuck at 9958/9960" for hours.
 PERMANENT_FAILURE_CODES = {404, 410, 423, 451}
 
+# Sentinel the CI chunk loop watches for. The loop reruns this script until the
+# category is finished; without an explicit "finished" signal it can't tell
+# "ran out of time for this chunk" (rerun me) from "ran out of models"
+# (stop), and would keep relaunching a process that exits in seconds.
+COMPLETE_SENTINEL = ".scrape_category_complete"
+
+
+def _signal_category_complete(category):
+    try:
+        with open(COMPLETE_SENTINEL, "w", encoding="utf-8") as f:
+            f.write(f"{category}\n")
+    except OSError:
+        pass  # advisory only -- never fail a run over the sentinel
+
 
 def fetch_detail(sess, url, solve_slug="aircraft"):
     """Fetch and parse one product page, healing WAF challenges. None if hopeless."""
@@ -764,6 +778,13 @@ def main():
     if todo:
         est_h = len(todo) * (args.delay + 1.0) / 3600
         print(f"estimated time: ~{est_h:.1f} h at {args.delay}s delay")
+    else:
+        # Tell the workflow's chunk loop to stop instead of spinning: with
+        # nothing to fetch this process exits in seconds, so without a signal
+        # the loop would keep relaunching it (paying a WAF solve each time)
+        # for the rest of the scrape budget.
+        _signal_category_complete(args.category)
+        return
 
     ok = missing = failed = 0
     t0 = time.time()
@@ -812,6 +833,10 @@ def main():
 
     print(f"\ndone: ok={ok} missing={missing} failed={failed}"
           f"{' (stopped on time budget)' if stopped_on_budget else ''}")
+    if not stopped_on_budget and not _stop:
+        # Fell off the end of `todo` under our own steam, so there is nothing
+        # left for this category -- tell the workflow's chunk loop to move on.
+        _signal_category_complete(args.category)
     path, n = export_csv(args.out_dir, args.category, stamp)
     if path:
         print(f"csv: {n} models -> {path}")

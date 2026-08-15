@@ -3,3 +3,4 @@ __pycache__/
 *.log
 *.csv
 .DS_Store
+.scrape_category_complete
