@@ -46,6 +46,7 @@ import re
 import signal
 import sys
 import time
+import zlib
 from datetime import datetime, timezone
 from urllib.parse import urlparse
 
@@ -438,6 +439,27 @@ def _signal_category_complete(category):
         pass  # advisory only -- never fail a run over the sentinel
 
 
+def _shard_key(model_id):
+    """Stable numeric key for partitioning. Ids are numeric strings in practice,
+    but fall back to a hash so a stray non-numeric id still lands somewhere
+    (exactly one worker) instead of crashing the run."""
+    s = str(model_id)
+    return int(s) if s.isdigit() else zlib.crc32(s.encode())
+
+
+def _parse_shard(spec):
+    """'3/8' -> (3, 8, 's3of8'). None -> (0, 1, None), i.e. take everything."""
+    if not spec:
+        return 0, 1, None
+    try:
+        i, n = (int(x) for x in spec.split("/", 1))
+    except ValueError:
+        raise SystemExit(f"--shard wants I/N (e.g. 3/8), got {spec!r}")
+    if n < 1 or not 0 <= i < n:
+        raise SystemExit(f"--shard {spec}: need 1 <= N and 0 <= I < N")
+    return i, n, (None if n == 1 else f"s{i}of{n}")
+
+
 def fetch_detail(sess, url, solve_slug="aircraft"):
     """Fetch and parse one product page, healing WAF challenges. None if hopeless."""
     for attempt in range(MAX_ATTEMPTS):
@@ -590,26 +612,46 @@ class ShardedWriter:
     once it hits SHARD_MAX_ROWS.
     """
 
-    def __init__(self, out_dir, category, max_rows=SHARD_MAX_ROWS):
+    def __init__(self, out_dir, category, max_rows=SHARD_MAX_ROWS, tag=None):
         _migrate_legacy_flat_file(out_dir, category)
         self.dir = _shard_dir(out_dir, category)
         os.makedirs(self.dir, exist_ok=True)
         self.max_rows = max_rows
-        shards = _shard_paths(out_dir, category)
-        if shards:
-            self.path = shards[-1]
-            self.index = len(shards)
+        # With --shard, several runners scrape one category at the same time.
+        # They must not append to the SAME part_NNNNN.jsonl: every one of them
+        # would open it at the same length, and the push-time union merge would
+        # then have to reconcile files that disagree line-for-line. Giving each
+        # worker its own filename series makes the shards disjoint by
+        # construction, so the merge is a plain add of new files. Readers glob
+        # part_*.jsonl, which matches both the tagged and untagged series.
+        self.tag = tag
+        # Anchored, so the untagged writer claims only part_00001.jsonl and
+        # never mistakes another worker's part_s3_00001.jsonl for its own.
+        self._mine = re.compile(
+            r"^part_\d+\.jsonl$" if tag is None
+            else rf"^part_{re.escape(tag)}_\d+\.jsonl$")
+        own = [p for p in _shard_paths(out_dir, category)
+               if self._mine.match(os.path.basename(p))]
+        if own:
+            self.path = own[-1]
+            self.index = len(own)
             with open(self.path, encoding="utf-8") as f:
                 self.count = sum(1 for _ in f)
         else:
             self.index = 1
-            self.path = os.path.join(self.dir, f"part_{self.index:05d}.jsonl")
+            self.path = os.path.join(self.dir, self._name(self.index))
             self.count = 0
+
+    def _prefix(self):
+        return "part_" if self.tag is None else f"part_{self.tag}_"
+
+    def _name(self, index):
+        return f"{self._prefix()}{index:05d}.jsonl"
 
     def append(self, row):
         if self.count >= self.max_rows:
             self.index += 1
-            self.path = os.path.join(self.dir, f"part_{self.index:05d}.jsonl")
+            self.path = os.path.join(self.dir, self._name(self.index))
             self.count = 0
         with open(self.path, "a", encoding="utf-8") as f:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -729,6 +771,9 @@ def main():
                     help="where the listing-pass .jsonl files live")
     ap.add_argument("--out-dir", default="./cgtrader_details")
     ap.add_argument("--limit", type=int, default=None, help="only the first N models")
+    ap.add_argument("--shard", default=None, metavar="I/N",
+                    help="split this category across N parallel workers and "
+                         "handle slice I (0-based), e.g. --shard 3/8")
     ap.add_argument("--order", default="price_desc",
                     choices=["price_desc", "price_asc", "as_listed"],
                     help="which models to do first (default: most expensive)")
@@ -800,9 +845,20 @@ def main():
         return
 
     targets = load_targets(args.raw_dir, args.category, args.limit, args.order)
-    writer = ShardedWriter(args.out_dir, args.category)
+    shard_i, shard_n, shard_tag = _parse_shard(args.shard)
+    writer = ShardedWriter(args.out_dir, args.category, tag=shard_tag)
     done = load_done(args.out_dir, args.category)
     todo = [t for t in targets if str(t["id"]) not in done]
+
+    if shard_n > 1:
+        # Partition on the id, not on position in the list: the list shrinks as
+        # rows land, so a positional split would hand overlapping work to the
+        # workers on the next run. Every worker reads the SAME done-set, so
+        # anything a sibling has already written is skipped here too.
+        before = len(todo)
+        todo = [t for t in todo if _shard_key(t["id"]) % shard_n == shard_i]
+        print(f"shard {shard_i}/{shard_n}: {len(todo)} of {before} outstanding "
+              f"models are mine")
 
     print(f"\n{args.category}: {len(targets)} unique models, {len(done)} already done, "
           f"{len(todo)} to fetch")

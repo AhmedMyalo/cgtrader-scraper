@@ -26,28 +26,51 @@ jobs:
     strategy:
       fail-fast: false   # one category's runner having a bad day must never
       # cancel the other 7 -- they're fully independent
-      max-parallel: 8   # conservative starting point (not the full 18) so we
-      # can watch WAF behavior under real parallel load before pushing wider
+      max-parallel: 16   # was 8, chosen when 18 categories were live and WAF
+      # behaviour under parallel load was still unknown. It has since held fine,
+      # and 18 of 19 categories are done -- so the cap now only delays the
+      # exterior shards behind no-op jobs. (Free public repos allow 20
+      # concurrent jobs; 16 leaves headroom.)
       matrix:
-        category:
-          - electronics
-          - household
-          - science
-          - space
-          - sport
-          - vehicle
-          - watercraft
-          - plant
-          - aircraft
-          - industrial
-          - food
-          - military
-          - car
-          - interior
-          - animal
-          - character
-          - architectural
-          - exterior
+        # 2026-08-19: exterior was the last category still scraping, and as a
+        # single job it got only ~200min of scraping per 6h cron cycle -- 440
+        # models/h while running, but 243/h against the wall clock. That put its
+        # remaining 38.6k models at ~6.6 days with 17 runners sitting idle.
+        # Splitting it 8 ways cuts that to well under a day. The split is by
+        # model id (see _shard_key), so the slices are disjoint and jointly
+        # exhaustive -- measured on the real outstanding list: 8 buckets of
+        # 4,686-4,952, full coverage, zero overlap.
+        include:
+          # exterior shards first, so they claim runner slots ahead of the
+          # 17 categories that will exit within a minute of starting.
+          - { category: exterior, shard: "0/8" }
+          - { category: exterior, shard: "1/8" }
+          - { category: exterior, shard: "2/8" }
+          - { category: exterior, shard: "3/8" }
+          - { category: exterior, shard: "4/8" }
+          - { category: exterior, shard: "5/8" }
+          - { category: exterior, shard: "6/8" }
+          - { category: exterior, shard: "7/8" }
+          # Everything else runs whole (0/1 == "all of it"). These are already
+          # complete; they stay in the matrix so any model CGTrader adds later
+          # still gets picked up.
+          - { category: electronics,   shard: "0/1" }
+          - { category: household,     shard: "0/1" }
+          - { category: science,       shard: "0/1" }
+          - { category: space,         shard: "0/1" }
+          - { category: sport,         shard: "0/1" }
+          - { category: vehicle,       shard: "0/1" }
+          - { category: watercraft,    shard: "0/1" }
+          - { category: plant,         shard: "0/1" }
+          - { category: aircraft,      shard: "0/1" }
+          - { category: industrial,    shard: "0/1" }
+          - { category: food,          shard: "0/1" }
+          - { category: military,      shard: "0/1" }
+          - { category: car,           shard: "0/1" }
+          - { category: interior,      shard: "0/1" }
+          - { category: animal,        shard: "0/1" }
+          - { category: character,     shard: "0/1" }
+          - { category: architectural, shard: "0/1" }
         # "award" is deliberately excluded -- already fully scraped
         # (9,960/9,960).
 
@@ -63,16 +86,23 @@ jobs:
       # queue behind each other. This is what actually enables the 8-way
       # speedup -- a single shared group here would serialize everything
       # right back to one-at-a-time regardless of max-parallel.
-      group: cgtrader-scrape-${{ matrix.category }}
+      # Per SHARD, not just per category -- exterior's eight workers touch
+      # disjoint model ids and disjoint output files, so serialising them
+      # against each other would undo the whole point of the split.
+      group: cgtrader-scrape-${{ matrix.category }}-${{ matrix.shard }}
       cancel-in-progress: false
 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # full history, not the default shallow clone --
-          # the commit step's rebase-and-retry-on-push-rejection needs a real
-          # common ancestor with origin/main to rebase onto.
+          fetch-depth: 300   # NOT the default shallow clone: the commit step's
+          # rebase-and-retry-on-push-rejection needs a real common ancestor
+          # with origin/main. But not full history either -- .git is now 1.1GB
+          # of accumulated JSONL and a fetch-depth: 0 checkout was measured at
+          # 15-17 MINUTES per job, on every one of 25 jobs. 300 commits is far
+          # more ancestry than a run can consume (a 200min run produces well
+          # under 100 commits across all shards) while cloning a fraction of it.
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -87,6 +117,13 @@ jobs:
         run: playwright install --with-deps chromium
 
       - name: Backfill missing sale/discount fields for ${{ matrix.category }}
+        # Skipped for sharded jobs: the backfill REWRITES every shard file of
+        # the category from an in-memory row list, which is safe for a single
+        # owner but not while seven siblings are appending to the same
+        # directory. Nothing is lost by skipping -- exterior has exactly one
+        # row missing price_final and it is a deleted model that can never
+        # gain one. Re-runs it whole once the shards are retired.
+        if: matrix.shard == '0/1'
         run: |
           # Rows scraped before the /products/<slug>.js endpoint was fully
           # parsed have no price_final / sale_discount_pct / downloads_count.
@@ -135,6 +172,7 @@ jobs:
             echo "::group::chunk $chunk_no (${this_chunk}min, ${left_min}min left)"
             python cgtrader_detail_scrape.py \
               --category "${{ matrix.category }}" \
+              --shard "${{ matrix.shard }}" \
               --order price_desc --delay 1.5 \
               --max-stall-min 10 --max-minutes "$this_chunk"
             rc=$?
@@ -159,12 +197,16 @@ jobs:
             fi
           done
 
+      # Only the first shard exports. The export rebuilds the CSV for the WHOLE
+      # category from every shard file on disk, so running it in all eight
+      # exterior jobs would do the same expensive work eight times and, worse,
+      # upload eight artifacts under one name -- which is an error, not a merge.
       - name: Export this category's CSV
-        if: always()
+        if: always() && startsWith(matrix.shard, '0/')
         run: python cgtrader_detail_scrape.py --category "${{ matrix.category }}" --export
 
       - name: Upload ${{ matrix.category }} CSV export
-        if: always()
+        if: always() && startsWith(matrix.shard, '0/')
         uses: actions/upload-artifact@v4
         with:
           name: csv-${{ matrix.category }}-${{ github.run_number }}
