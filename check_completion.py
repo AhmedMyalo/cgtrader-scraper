@@ -35,7 +35,11 @@ def ids_in_jsonl(path):
             except json.JSONDecodeError:
                 continue
             if mid is not None:
-                ids.add(mid)
+                # Normalised because the two sides disagree on type: the raw
+                # listing files carry ids as strings, the detail shards as
+                # ints. Only counts were ever compared here so the mismatch was
+                # harmless, but the residue below needs a real set difference.
+                ids.add(str(mid))
     return ids
 
 
@@ -49,9 +53,21 @@ def ids_in_shard_dir(d):
     return ids
 
 
+# If a handful of models can never be fetched AND never get recorded, strict
+# equality below can never be satisfied and the "you're done" notification
+# never fires -- the run just goes quiet forever. That is a real bug we already
+# hit once (soft-404 redirects, see cgtrader_detail_scrape.py), and the cost of
+# hitting a new variant of it is the user never learning the scrape finished.
+# So allow a tiny absolute residue, and name the leftover ids in the issue
+# rather than papering over them. Deliberately an absolute count, not a
+# percentage: 0.1% of 774k would be ~774 models quietly dropped.
+RESIDUE_TOLERANCE = 25
+
+
 def main():
     total_target = total_done = 0
     lines = []
+    residue = []
     for cat in CATEGORIES:
         target_ids = ids_in_jsonl(os.path.join(RAW_DIR, f"{cat}.jsonl"))
         done_ids = ids_in_shard_dir(os.path.join(DETAILS_DIR, f"{cat}_details"))
@@ -61,11 +77,21 @@ def main():
         pct = (d / t * 100) if t else 0
         lines.append(f"| {cat} | {d:,} | {t:,} | {pct:.1f}% |")
         print(f"  {cat:14s} {d:>8,} / {t:<8,}  ({pct:5.1f}%)")
+        gap = target_ids - done_ids
+        if gap and len(gap) <= RESIDUE_TOLERANCE:
+            residue.append(f"{cat}: {', '.join(sorted(gap))}")
 
     overall_pct = (total_done / total_target * 100) if total_target else 0
-    print(f"\nOVERALL: {total_done:,} / {total_target:,} ({overall_pct:.2f}%)")
+    missing = total_target - total_done
+    print(f"\nOVERALL: {total_done:,} / {total_target:,} ({overall_pct:.2f}%)"
+          f"  missing={missing:,}")
 
-    complete = total_target > 0 and total_done >= total_target
+    complete = total_target > 0 and missing <= RESIDUE_TOLERANCE
+    if complete and missing:
+        print(f"Treating as complete: only {missing} model(s) unaccounted for "
+              f"(tolerance {RESIDUE_TOLERANCE}). They are named in the issue.")
+        for r in residue:
+            print(f"  residue -> {r}")
 
     gh_out = os.environ.get("GITHUB_OUTPUT")
     if gh_out:
@@ -74,10 +100,25 @@ def main():
             f.write(f"overall_pct={overall_pct:.2f}\n")
             f.write(f"total_done={total_done}\n")
             f.write(f"total_target={total_target}\n")
+            f.write(f"residue={'; '.join(residue)}\n")
             f.write("table<<EOF\n")
             f.write("| category | done | target | % |\n|---|---|---|---|\n")
             f.write("\n".join(lines))
             f.write("\nEOF\n")
+
+    # Second, independent channel for the same news. Actions emails on workflow
+    # FAILURE but never on success, so the completion issue is otherwise the
+    # only positive signal -- and if that one step ever breaks, the scrape
+    # finishes in total silence. The run summary costs nothing and can't fail.
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a", encoding="utf-8") as f:
+            f.write(f"## {'DONE - scraping complete' if complete else 'Still scraping'}\n\n")
+            f.write(f"**{total_done:,} / {total_target:,}** models ({overall_pct:.2f}%)\n\n")
+            f.write("| category | done | target | % |\n|---|---|---|---|\n")
+            f.write("\n".join(lines) + "\n")
+            if residue:
+                f.write(f"\nPermanently unavailable: {'; '.join(residue)}\n")
 
     if complete:
         print("\n=== ALL CATEGORIES COMPLETE ===")

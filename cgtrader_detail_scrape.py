@@ -401,6 +401,28 @@ def fetch_product_extra(sess, product_url, solve_slug="aircraft", max_attempts=3
 # "stuck at 9958/9960" for hours.
 PERMANENT_FAILURE_CODES = {404, 410, 423, 451}
 
+# A deleted model does not always answer with one of those codes. CGTrader also
+# soft-404s: it 301s the dead product URL to a plain tag-browse page, which
+# returns a perfectly healthy 200 that simply has no product on it.
+#     /free-3d-models/vehicle/train/train-wagon -> 301 -> /3d-models/wagon
+# parse_detail() then (correctly) raises "TopSection props not found", every
+# retry reproduces it, and the model is never recorded -- so it is re-queued on
+# every future run, forever, and the category can never reach 100%. That is what
+# pinned interior/character/vehicle one or two models short of target while all
+# three displayed as "100.0%" (2026-08-19).
+#
+# A product URL always has three path segments after the [free-]3d-models root
+# (category/subcategory/slug); a tag-browse page has one. Renamed-slug redirects
+# still land on a product URL, so they keep the normal retry path.
+_PRODUCT_PATH_RE = re.compile(r"^/(?:free-)?3d-models/[^/]+/[^/]+/[^/]+/?$")
+
+
+def _redirected_off_product(resp):
+    """True if the request was redirected to something that isn't a model page."""
+    if not resp.history:
+        return False
+    return not _PRODUCT_PATH_RE.match(urlparse(resp.url).path)
+
 # Sentinel the CI chunk loop watches for. The loop reruns this script until the
 # category is finished; without an explicit "finished" signal it can't tell
 # "ran out of time for this chunk" (rerun me) from "ran out of models"
@@ -426,6 +448,9 @@ def fetch_detail(sess, url, solve_slug="aircraft"):
             if is_challenge(r.status_code, r.text):
                 sess.solve_challenge(solve_slug)
                 continue
+            if _redirected_off_product(r):
+                return {"__missing__": True, "__status__": 301,
+                        "__reason__": f"redirected to {urlparse(r.url).path}"}
             r.raise_for_status()
             row = parse_detail(r.text, url)
             row.update(fetch_product_extra(sess, url, solve_slug))
@@ -629,9 +654,15 @@ def patch_extra(sess, category, out_dir, solve_slug="aircraft", budget_s=None):
     if not rows:
         raise SystemExit(f"No details found for {category!r} in {out_dir}")
 
-    todo = [r for r in rows if "price_final" not in r]
-    print(f"{category}: {len(rows)} rows, {len(rows) - len(todo)} already patched, "
-          f"{len(todo)} to patch")
+    # Placeholder rows stand for models CGTrader has deleted; there is no
+    # product page left to read views or pricing off, so they can never gain a
+    # price_final and would otherwise be re-attempted (5 retries each, with
+    # backoff) on every single backfill run, forever.
+    todo = [r for r in rows
+            if "price_final" not in r
+            and not str(r.get("title", "")).startswith("[unavailable")]
+    print(f"{category}: {len(rows)} rows, {len(rows) - len(todo)} already patched "
+          f"or permanently unavailable, {len(todo)} to patch")
     if not todo:
         return
 
@@ -816,11 +847,12 @@ def main():
             # Record it as done anyway (id + url only) so a 410/423/404 that's
             # permanently gone doesn't get re-attempted, and re-counted as
             # "still to fetch", on every future run of this same category.
+            why = row.get("__reason__") or f"HTTP {row.get('__status__')}"
             placeholder = {"id": t["id"], "url": t["url"],
-                          "title": f"[unavailable: HTTP {row.get('__status__')}]",
+                          "title": f"[unavailable: {why}]",
                           "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
             writer.append(placeholder)
-            print(f"  [{i}/{len(todo)}] unavailable (HTTP {row.get('__status__')}): {t['url']}")
+            print(f"  [{i}/{len(todo)}] unavailable ({why}): {t['url']}")
         else:
             writer.append(row)
             ok += 1

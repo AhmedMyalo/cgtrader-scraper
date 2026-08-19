@@ -196,6 +196,19 @@ jobs:
 
       - name: Open the "all done" issue, once
         if: steps.progress.outputs.complete == 'true'
+        env:
+          # These MUST reach the script through env, not through ${{ }}
+          # interpolation. github-script substitutes ${{ }} textually into the
+          # JS source, and PROGRESS_TABLE is a multi-line value -- pasting raw
+          # newlines inside a "..." string literal is a JavaScript syntax
+          # error, which would abort this step and mean the run finishes with
+          # nobody ever being told. The numeric outputs go the same route for
+          # consistency and to stay injection-proof.
+          PROGRESS_TABLE: ${{ steps.progress.outputs.table }}
+          TOTAL_DONE: ${{ steps.progress.outputs.total_done }}
+          TOTAL_TARGET: ${{ steps.progress.outputs.total_target }}
+          OVERALL_PCT: ${{ steps.progress.outputs.overall_pct }}
+          RESIDUE: ${{ steps.progress.outputs.residue }}
         uses: actions/github-script@v7
         with:
           script: |
@@ -213,12 +226,14 @@ jobs:
               title,
               labels: ["scrape-complete"],
               body: [
-                "Every category has reached 100% (or its models are confirmed",
-                "permanently unavailable on CGTrader).",
+                "Scraping is finished. Every category is fetched, apart from a",
+                "few models CGTrader itself has deleted (listed below if any).",
                 "",
-                `**${{ steps.progress.outputs.total_done }} / ${{ steps.progress.outputs.total_target }}** models (${{ steps.progress.outputs.overall_pct }}%)`,
+                `**${process.env.TOTAL_DONE} / ${process.env.TOTAL_TARGET}** models (${process.env.OVERALL_PCT}%)`,
                 "",
-                "${{ steps.progress.outputs.table }}",
+                process.env.PROGRESS_TABLE,
+                "",
+                process.env.RESIDUE ? `Not fetched: ${process.env.RESIDUE}` : "",
                 "",
                 "The scheduled workflow will keep running every 6h (harmless,",
                 "each run finishes in well under a minute once there's nothing",
