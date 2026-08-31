@@ -683,7 +683,8 @@ def load_done(out_dir, category):
     return {str(r.get("id")) for r in load_rows(out_dir, category)}
 
 
-def patch_extra(sess, category, out_dir, solve_slug="aircraft", budget_s=None):
+def patch_extra(sess, category, out_dir, solve_slug="aircraft", budget_s=None,
+                delay=0.8):
     """One-time backfill: add views/favorites/downloads/discount/final-price to
     rows fetched before this endpoint's fields were fully parsed, WITHOUT
     re-fetching the whole product page (everything else about those rows is
@@ -741,7 +742,7 @@ def patch_extra(sess, category, out_dir, solve_slug="aircraft", budget_s=None):
             checkpoint()
         if patched % 50 == 0 or patched == 1 or i == len(todo):
             print(f"  [{i}/{len(todo)}] patched={patched} empty={failed}")
-        jittered_sleep(0.8)
+        jittered_sleep(delay)
 
     checkpoint()
     print(f"patched {patched} rows ({failed} came back empty) -> {_shard_dir(out_dir, category)}")
@@ -783,6 +784,10 @@ def main():
     ap.add_argument("--patch-views", action="store_true",
                     help="backfill views_count/favorites_count into existing rows "
                          "that predate this endpoint, without re-fetching them")
+    ap.add_argument("--patch-delay", type=float, default=0.8,
+                    help="seconds between rows during --patch-views; the "
+                         "backfill only calls the lightweight .js endpoint, "
+                         "not the full page, so it tolerates a shorter gap")
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--max-stall-min", type=float, default=10,
                     help="restart if no model completes for this many minutes")
@@ -838,7 +843,8 @@ def main():
 
     if args.patch_views:
         patch_extra(sess, args.category, args.out_dir,
-                    budget_s=args.max_minutes * 60 if args.max_minutes else None)
+                    budget_s=args.max_minutes * 60 if args.max_minutes else None,
+                    delay=args.patch_delay)
         path, n = export_csv(args.out_dir, args.category, stamp)
         if path:
             print(f"  {n} models -> {path}")
