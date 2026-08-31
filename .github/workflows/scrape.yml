@@ -13,8 +13,16 @@ name: CGTrader scrape
 # jsonl/state files already used for local runs; nothing here bypasses that,
 # it just decides how many categories run at once and how long each gets.
 on:
-  schedule:
-    - cron: "0 */6 * * *"
+  # The 6-hourly schedule is OFF as of 2026-08-31: all 19 categories reached
+  # 100% (774,468 category-rows / 567,916 distinct models) on 2026-08-25, so
+  # every run since has spun up 25 VMs, cloned a 1.1GB repo, found nothing to
+  # fetch and exited -- four times a day, forever.
+  #
+  # Re-enable by uncommenting, or just press "Run workflow" on the Actions tab
+  # whenever you want to pick up models CGTrader has added since. Everything is
+  # resumable, so a manual run only fetches what is genuinely new.
+  # schedule:
+  #   - cron: "0 */6 * * *"
   workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
 
 permissions:
