@@ -893,6 +893,20 @@
       "complete": true,
       "count": 2620,
       "failed_pages": []
+    },
+    "sport::newest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9840,
+      "failed_pages": [
+        54
+      ]
+    },
+    "award::newest": {
+      "last_page": 83,
+      "complete": true,
+      "count": 9960,
+      "failed_pages": []
     }
   }
 }
