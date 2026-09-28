@@ -1,0 +1,107 @@
+name: CGTrader scrape (newest-sort, paid only)
+
+# Separate from scrape.yml on purpose -- does not touch or replace it.
+#
+# Some categories (sport, award, ...) hit the 9,960-per-URL cap on their
+# 'oldest' listing pass and needed a second 'newest' pass (see
+# cgtrader_deep_scrape.py --sorts oldest,newest) to reach recently-uploaded
+# models. That discovery is already committed to cgtrader_deep/raw/. This
+# workflow does the (slow, one-request-per-model) detail-fetch step for just
+# those newest-sourced, PAID models, using cgtrader_newest_paid_detail_scrape.py.
+#
+# Runs on GitHub's runners, not a personal machine -- keeps this off anyone's
+# home IP, same reasoning as scrape.yml.
+on:
+  workflow_dispatch:
+    inputs:
+      max_minutes_per_chunk:
+        description: "minutes per scrape chunk before committing progress"
+        default: "180"
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-newest-paid:
+    strategy:
+      fail-fast: false
+      matrix:
+        category: [sport, award]
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    concurrency:
+      group: cgtrader-scrape-newest-paid-${{ matrix.category }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 300
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Chromium (for solving the WAF challenge)
+        run: playwright install --with-deps chromium
+
+      - name: Scrape ${{ matrix.category }} (newest, paid) in chunks, committing after each
+        run: |
+          set -u
+          CHUNK_MIN="${{ inputs.max_minutes_per_chunk }}"
+          TOTAL_MIN=300
+          deadline=$(( $(date +%s) + TOTAL_MIN * 60 ))
+
+          chunk_no=0
+          while :; do
+            now=$(date +%s)
+            left_min=$(( (deadline - now) / 60 ))
+            if [ "$left_min" -lt 5 ]; then
+              echo "[chunk] scrape budget exhausted"
+              break
+            fi
+            this_chunk=$CHUNK_MIN
+            [ "$left_min" -lt "$CHUNK_MIN" ] && this_chunk=$left_min
+
+            chunk_no=$(( chunk_no + 1 ))
+            echo "::group::chunk $chunk_no (${this_chunk}min, ${left_min}min left)"
+            python cgtrader_newest_paid_detail_scrape.py \
+              --category "${{ matrix.category }}" \
+              --delay 1.5 --max-stall-min 10 --max-minutes "$this_chunk"
+            rc=$?
+            echo "::endgroup::"
+
+            bash commit_progress.sh "${{ matrix.category }}-newest-paid"
+
+            if [ "$rc" -ne 0 ]; then
+              echo "::warning::scraper exited $rc on chunk $chunk_no; progress pushed, stopping this job"
+              exit "$rc"
+            fi
+
+            if [ -f .scrape_category_complete ]; then
+              echo "[chunk] ${{ matrix.category }} newest-paid has nothing left to fetch"
+              rm -f .scrape_category_complete
+              break
+            fi
+          done
+
+      - name: Export this category's CSV
+        if: always()
+        run: python cgtrader_detail_scrape.py --category "${{ matrix.category }}" --export
+
+      - name: Upload ${{ matrix.category }} CSV export
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csv-${{ matrix.category }}-newest-paid-${{ github.run_number }}
+          path: cgtrader_details/${{ matrix.category }}_details_*.csv
+          if-no-files-found: warn
+          retention-days: 90
